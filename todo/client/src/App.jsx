@@ -1,3 +1,10 @@
+import Header from "./components/Header";
+import Input from "./components/Input";
 export default function App() {
-  return <h1 className="text-3xl font-bold underline">Hello world!</h1>;
+  return (
+    <div className="max-w-2xl  h-full mx-auto m-20">
+      {/* <Header /> */}
+      <Input />
+    </div>
+  );
 }
