@@ -55,14 +55,28 @@ app.get("/todo/:id", async (req, res) => {
   }
 });
 
+//updata todo
+app.put("/todo/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { title, description } = req.body;
+    const updataTodo = await db.query(
+      "UPDATE  pern_todo SET title = $1 , description = $2 WHERE id = $3",
+      [title, description, id]
+    );
+    res.json("Update successfuy ... ");
+  } catch (error) {
+    console.error(error.message);
+  }
+});
+
 // Delete todo
 app.delete("/todo/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const deleteTodo = await db.query(
-      "DELETE FROM pern_todo  WHERE id = $1",
-      [id]
-    );
+    const deleteTodo = await db.query("DELETE FROM pern_todo  WHERE id = $1", [
+      id,
+    ]);
     res.json("Delete successfuy ...");
   } catch (error) {
     console.error(error.message);
