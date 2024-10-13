@@ -55,6 +55,20 @@ app.get("/todo/:id", async (req, res) => {
   }
 });
 
+// Delete todo
+app.delete("/todo/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deleteTodo = await db.query(
+      "DELETE FROM pern_todo  WHERE id = $1",
+      [id]
+    );
+    res.json("Delete successfuy ...");
+  } catch (error) {
+    console.error(error.message);
+  }
+});
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
