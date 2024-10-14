@@ -11,7 +11,6 @@ const Input = () => {
     try {
       const postData = await axios.post("http://localhost:5000/todo", value);
       const data = await postData.data;
-
       if (data) {
         setValue({
           title: "",
@@ -22,6 +21,8 @@ const Input = () => {
       console.error(error.message);
     }
   }
+
+  
   return (
     <div>
       <form
