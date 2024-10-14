@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { MdDeleteOutline } from "react-icons/md";
+import EditTodo from "./EditTodo";
 
 const Alltodo = () => {
   const [value, setValue] = useState([]);
@@ -35,6 +36,7 @@ const Alltodo = () => {
         {value.map((todo) => (
           <div key={todo.id}>
             <h1 className="text-xl text-center font-semibold">{todo.title}</h1>
+            <EditTodo />
             <MdDeleteOutline
               onClick={() => handleDelete(todo.id)}
               className="text-3xl cursor-pointer hover:text-red-500 hover:bg-slate-300 rounded-full mx-2"
