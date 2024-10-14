@@ -16,6 +16,7 @@ const Alltodo = () => {
   async function handleDelete(id) {
     try {
       const deleteTodo = await axios.delete(`http://localhost:5000/todo/${id}`);
+      setValue(value.filter((todo) => todo.id !== id));
     } catch (error) {
       console.error(error.message);
     }

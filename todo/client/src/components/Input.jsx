@@ -6,8 +6,7 @@ const Input = () => {
     title: "",
     description: "",
   });
-  async function handleSubmit(e) {
-    e.preventDefault();
+  async function handleSubmit() {
     try {
       const postData = await axios.post("http://localhost:5000/todo", value);
       const data = await postData.data;
@@ -22,7 +21,6 @@ const Input = () => {
     }
   }
 
-  
   return (
     <div>
       <form
