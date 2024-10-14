@@ -4,15 +4,23 @@ import { MdDeleteOutline } from "react-icons/md";
 
 const Alltodo = () => {
   const [value, setValue] = useState([]);
+
+  // Fetch all todos
   async function allData() {
-    const allTodo = await axios.get("http://localhost:5000/todo");
-    const data = await allTodo.data;
-    setValue(data);
+    try {
+      const allTodo = await axios.get("http://localhost:5000/todo");
+      const data = await allTodo.data;
+      setValue(data);
+    } catch (error) {
+      console.error(error.message);
+    }
   }
+
   useEffect(() => {
     allData();
-  }, []);
+  }, [value]);
 
+  //Delete Todo
   async function handleDelete(id) {
     try {
       const deleteTodo = await axios.delete(`http://localhost:5000/todo/${id}`);
