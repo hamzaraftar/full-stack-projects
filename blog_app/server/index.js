@@ -57,6 +57,7 @@ app.get("/blogs/:id", async (req, res) => {
   }
 });
 
+// Delete blog
 app.delete("/blogs/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -67,6 +68,21 @@ app.delete("/blogs/:id", async (req, res) => {
   }
 });
 
+// Updata blog
+
+app.put("/blogs/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { title, description } = req.body;
+    const updateBlog = await db.query(
+      "UPDATE blog SET  title = $1, description = $2  WHERE id =$3",
+      [title, description, id]
+    );
+    res.json("Update blog successfully ...");
+  } catch (error) {
+    console.error(error.message);
+  }
+});
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
