@@ -43,6 +43,20 @@ app.get("/blogs", async (req, res) => {
     console.error(error.message);
   }
 });
+// Get single todo
+
+app.get("/blogs/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const getSingleBlog = await db.query("SELECT * FROM blog  WHERE id = $1", [
+      id,
+    ]);
+    res.json(getSingleBlog.rows);
+  } catch (error) {
+    console.error(error.message);
+  }
+});
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
