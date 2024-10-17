@@ -37,9 +37,10 @@ app.post("/blogs", async (req, res) => {
 
 app.get("/blogs", async (req, res) => {
   try {
-    
+    const data = await db.query("SELECT * FROM blog");
+    res.json(data.rows);
   } catch (error) {
-    
+    console.error(error.message);
   }
 });
 app.listen(port, () => {
