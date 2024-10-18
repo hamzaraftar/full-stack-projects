@@ -1,3 +1,16 @@
+import Header from "./components/Header";
+import { Routes,Route } from 'react-router-dom'
+import Createblog from "./pages/Createblog"
+
 export default function App() {
-  return <h1 className="text-3xl font-bold underline">Hello world!</h1>;
+  return (
+    <>
+      <div>
+        <Header/>
+        <Routes>
+          <Route path="/create-blog" element={ <Createblog /> }/>
+        </Routes>
+      </div>
+    </>
+  );
 }
