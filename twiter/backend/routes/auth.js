@@ -1,7 +1,6 @@
 import express from "express";
+import {signUp} from '../controlles/auth.js'
 const router = express.Router();
 
-router.get("/signup",(req,res)=>{
-    res.json("you hit the signup route")
-});
+router.get("/signup",signUp);
 export default router;
