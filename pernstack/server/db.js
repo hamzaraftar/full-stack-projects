@@ -1,9 +1,10 @@
-const Pool = require("pg").Pool;
-const db = new Pool({
+import pg from "pg";
+const db = new pg.Client({
   user: "postgres",
-  password: 12345,
   host: "localhost",
-  port: 5432,
   database: "JWT",
+  password: "12345",
+  port: "5432",
 });
-module.exports = db
+db.connect();
+export default db;

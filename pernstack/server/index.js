@@ -1,15 +1,17 @@
-const express = require("express");
-const cors = require("cors");
+import express from "express";
+import cors from "cors";
+import authRoutes from "./routes/jwtAuth.js";
 const app = express();
-const port = 3000;
+const port = 5000;
 
 // middleware
 app.use(express.json());
 app.use(cors());
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
+// Routes
+
+// register and login
+app.use("/auth", authRoutes);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
