@@ -11,6 +11,7 @@ export const auth = async (req, res, next) => {
 
     const payLoad = jwt.verify(jwtToken, process.env.JWTSECRET);
     req.user = payLoad.user;
+    next();
   } catch (error) {
     console.error(error.message);
     return res.status(403).json(" Not Authorize ");

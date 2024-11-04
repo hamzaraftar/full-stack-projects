@@ -2,6 +2,7 @@ import express from "express";
 import bcrypt from "bcrypt";
 import jwtGenerator from "../utils/jwtGenerator.js";
 import { validInfo } from "../middleware/validInfo.js";
+import { auth } from "../middleware/authroization.js";
 const router = express.Router();
 
 import db from "../db.js";
@@ -64,6 +65,15 @@ router.post("/login", validInfo, async (req, res) => {
 
     const token = jwtGenerator(user.rows[0].user_id);
     res.json({ token });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("Server error");
+  }
+});
+
+router.get("/is-verify", auth, async (req, res) => {
+  try {
+    res.json(true)
   } catch (error) {
     console.error(error.message);
     res.status(500).send("Server error");
