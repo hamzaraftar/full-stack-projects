@@ -33,4 +33,40 @@ router.post("/register", async (req, res) => {
     res.status(500).send("Server error");
   }
 });
+// Login route
+
+router.post("/login", async (req, res) => {
+  try {
+    // 1. destructore the req.body
+
+    const { email, password } = req.body;
+    const user = await db.query("SELECT * FROM users WHERE user_email = $1", [
+      email,
+    ]);
+
+    // 2. check if user doesn't exixt (if not throw error)
+
+    if (user.rows.length === 0) {
+      res.status(401).json(" password or email is incorrect ");
+    }
+
+    // 3. check incomming password is same as database password
+
+    const validPass = await bcrypt.compare(
+      password,
+      user.rows[0].user_password
+    );
+    if (!validPass) {
+      res.status(401).json("password or email is incorrect ");
+    }
+    // 4. give them jwt token
+
+    const token = jwtGenerator(user.rows[0].user_id);
+    res.json({ token });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("Server error");
+  }
+});
+
 export default router;
