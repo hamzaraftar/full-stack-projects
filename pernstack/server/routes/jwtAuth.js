@@ -1,13 +1,14 @@
 import express from "express";
 import bcrypt from "bcrypt";
 import jwtGenerator from "../utils/jwtGenerator.js";
+import { validInfo } from "../middleware/validInfo.js";
 const router = express.Router();
 
 import db from "../db.js";
 import { genSalt } from "bcrypt";
 
 // registering
-router.post("/register", async (req, res) => {
+router.post("/register", validInfo, async (req, res) => {
   try {
     const { name, email, password } = req.body;
     const userMail = await db.query(
@@ -35,7 +36,7 @@ router.post("/register", async (req, res) => {
 });
 // Login route
 
-router.post("/login", async (req, res) => {
+router.post("/login", validInfo, async (req, res) => {
   try {
     // 1. destructore the req.body
 
