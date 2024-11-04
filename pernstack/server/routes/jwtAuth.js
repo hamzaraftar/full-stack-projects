@@ -1,5 +1,6 @@
 import express from "express";
 import bcrypt from "bcrypt";
+import jwtGenerator from "../utils/jwtGenerator.js";
 const router = express.Router();
 
 import db from "../db.js";
@@ -19,12 +20,14 @@ router.post("/register", async (req, res) => {
 
     const saltRound = 10;
     const salt = await genSalt(saltRound);
-    const byrypuPass = bcrypt.hash(password, salt);
+    const byrypuPass = await bcrypt.hash(password, salt);
     const data = await db.query(
       "INSERT INTO users (user_name , user_email, user_password)   VALUES ($1 , $2 , $3) RETURNING *",
       [name, email, byrypuPass]
     );
-    res.json(data.rows[0]);
+    //Create JWT generator
+    const token = jwtGenerator(data.rows[0].user_id);
+    res.json({ token });
   } catch (error) {
     console.error(error);
     res.status(500).send("Server error");
