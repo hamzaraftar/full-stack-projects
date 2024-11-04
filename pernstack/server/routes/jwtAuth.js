@@ -1,5 +1,5 @@
 import express from "express";
-import bcrypt from 'bcrypt'
+import bcrypt from "bcrypt";
 const router = express.Router();
 
 import db from "../db.js";
@@ -19,9 +19,9 @@ router.post("/register", async (req, res) => {
 
     const saltRound = 10;
     const salt = await genSalt(saltRound);
-    const byrypuPass = bcrypt.hash(password,salt)
+    const byrypuPass = bcrypt.hash(password, salt);
     const data = await db.query(
-      "INSERT INTO users (user_name , user_email, user_password)   VALUES ($1 , $2 , $2) RETURNING *",
+      "INSERT INTO users (user_name , user_email, user_password)   VALUES ($1 , $2 , $3) RETURNING *",
       [name, email, byrypuPass]
     );
     res.json(data.rows[0]);
