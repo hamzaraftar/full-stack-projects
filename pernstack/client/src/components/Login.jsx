@@ -1,3 +1,8 @@
-export default function Login() {
-  return <div>Login</div>;
+export default function Login({ setAuth }) {
+  return (
+    <div>
+      Login
+      <button onClick={() => setAuth(true)}>Authenticated</button>
+    </div>
+  );
 }
