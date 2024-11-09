@@ -33,9 +33,12 @@ class Task {
     );
     return new Task(...Object.values(result.rows[0]));
   }
+
+  static async getTasks() {
+    const result = await db.query("SELECT * FROM pern_todo");
+    return result.rows.map((row) => new Task(...Object.values(row)));
+  }
 }
-
-
 
 // API endpoint
 app.post("/tasks", async (req, res) => {
@@ -47,6 +50,14 @@ app.post("/tasks", async (req, res) => {
   }
 });
 
+app.get('/tasks', async (req, res) => {
+  try {
+    const tasks = await Task.getTasks();
+    res.json(tasks);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch tasks' });
+  }
+});
 app.listen(PORT, () => {
   console.log(`Server is running on PORT : ${PORT}`);
 });
