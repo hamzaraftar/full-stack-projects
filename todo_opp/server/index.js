@@ -38,6 +38,13 @@ class Task {
     const result = await db.query("SELECT * FROM pern_todo");
     return result.rows.map((row) => new Task(...Object.values(row)));
   }
+
+  static async findById(id) {
+    const result = await db.query("SELECT * FROM pern_todo WHERE id = $1", [id]);
+    return result.rows.length
+      ? new Task(...Object.values(result.rows[0]))
+      : null;
+  }
 }
 
 // API endpoint
@@ -49,13 +56,23 @@ app.post("/tasks", async (req, res) => {
     console.error(error.message);
   }
 });
-
-app.get('/tasks', async (req, res) => {
+// get all todo
+app.get("/tasks", async (req, res) => {
   try {
     const tasks = await Task.getTasks();
     res.json(tasks);
   } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch tasks' });
+    res.status(500).json({ error: "Failed to fetch tasks" });
+  }
+});
+// get by id
+app.get('/tasks/:id', async (req, res) => {
+  try {
+    const task = await Task.findById(req.params.id);
+    if (task) res.json(task);
+    else res.status(404).json({ error: 'Task not found' });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch task' });
   }
 });
 app.listen(PORT, () => {
