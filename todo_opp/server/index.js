@@ -40,10 +40,16 @@ class Task {
   }
 
   static async findById(id) {
-    const result = await db.query("SELECT * FROM pern_todo WHERE id = $1", [id]);
+    const result = await db.query("SELECT * FROM pern_todo WHERE id = $1", [
+      id,
+    ]);
     return result.rows.length
       ? new Task(...Object.values(result.rows[0]))
       : null;
+  }
+
+  async delete() {
+    await db.query("DELETE FROM pern_todo WHERE id = $1", [this.id]);
   }
 }
 
@@ -66,15 +72,30 @@ app.get("/tasks", async (req, res) => {
   }
 });
 // get by id
-app.get('/tasks/:id', async (req, res) => {
+app.get("/tasks/:id", async (req, res) => {
   try {
     const task = await Task.findById(req.params.id);
     if (task) res.json(task);
-    else res.status(404).json({ error: 'Task not found' });
+    else res.status(404).json({ error: "Task not found" });
   } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch task' });
+    res.status(500).json({ error: "Failed to fetch task" });
   }
 });
+// delete todo
+app.delete("/tasks/:id", async (req, res) => {
+  try {
+    const task = await Task.findById(req.params.id);
+    if (task) {
+      await task.delete();
+      res.json({ message: "Task deleted" });
+    } else {
+      res.status(404).json({ error: "Task not found" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: "Failed to delete task" });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on PORT : ${PORT}`);
 });
