@@ -9,15 +9,27 @@ export default function Navbar() {
         <Link href={"/"}>
           <li>Home</li>
         </Link>
-        <Link href={"/"}>
+        <Link href={"/about"}>
           <li>About</li>
         </Link>
-        <Link href={"/"}>
+        <Link href={"/generate"}>
           <li>Shorten</li>
         </Link>
-        <Link href={"/"}>
+        <Link href={"/contact"}>
           <li>Contact US</li>
         </Link>
+        <li className="flex gap-4">
+          <Link href={"/generate"}>
+            <button className="bg-purple-500 shadow-lg p-3 rounded-lg py-1 font-bold">
+              Try Now
+            </button>
+          </Link>
+          <Link href={"/github"}>
+            <button className="bg-purple-500 shadow-lg p-3 rounded-lg py-1 font-bold">
+              GitHub
+            </button>
+          </Link>
+        </li>
       </ul>
     </nav>
   );
