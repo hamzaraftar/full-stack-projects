@@ -2,19 +2,23 @@ import Link from "next/link";
 import Image from "next/image";
 export default function Navbar() {
   return (
-    <nav className="h-16  flex min-w-[342px] justify-between items-center bg-slate-400 px-4">
+    <nav className="h-16  flex min-w-[342px] justify-between items-center  px-4">
       <div className="font-bold ">
-        <Image src={"/paper.png"} alt="paper image" width={50} height={50} />
+        <Link href={"/"}>
+          <Image src={"/paper.png"} alt="paper image" width={50} height={50} />
+        </Link>
       </div>
       <ul className="flex justify-center items-center gap-4 font-semibold">
         <Link href={"/"}>
-          <li>Home</li>
+          <li className="hover:bg-slate-300 p-3 py-2  rounded-xl">Home</li>
         </Link>
         <Link href={"/about"}>
-          <li>About</li>
+          <li className="hover:bg-slate-300 p-3 py-2  rounded-xl">About</li>
         </Link>
         <Link href={"/contact"}>
-          <li>Contact Us</li>
+          <li className="hover:bg-slate-300 p-3 py-2  rounded-xl">
+            Contact Us
+          </li>
         </Link>
       </ul>
     </nav>
