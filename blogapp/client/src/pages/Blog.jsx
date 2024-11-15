@@ -1,12 +1,17 @@
+import { Helmet } from "react-helmet";
+
 export default function Blog() {
   return (
     <div className="flex justify-center items-center">
+      <Helmet>
+        <title>BLOGGER | Blog</title>
+      </Helmet>
       <div className="flex flex-col w-[60%] mx-auto ">
         <h1 className="mt-1 text-3xl font-extrabold">
           Is it worth investing in real estate ? Advantages and disadvantages
         </h1>
         <div className="flex mt-4 mb-4">
-          <small>Jan 20, 2024</small>
+          <small className="text-sm">Jan 20, 2024</small>
         </div>
         <img
           className="rounded-lg"

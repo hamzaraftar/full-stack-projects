@@ -1,4 +1,5 @@
 import Blogcard from "../components/Blogcard";
+import { Helmet } from "react-helmet";
 
 // import React from 'react'
 export default function Home() {
@@ -87,6 +88,9 @@ export default function Home() {
   ];
   return (
     <div>
+      <Helmet>
+        <title>BLOGGER | Home</title>
+      </Helmet>
       <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-5">
         {data.map((x) => (
           <Blogcard blogData={x} key={x.comments} />

@@ -14,7 +14,9 @@ export default function Layout() {
       {/* <header></header> */}
       <div className="border-b">
         <div className="container px-5 py-5 flex justify-between">
-          <span className="font-extrabold text-2xl">BOLGGER</span>
+          <Link to={"/"}>
+            <span className="font-extrabold text-2xl">BOLGGER</span>
+          </Link>
           <div className="flex gap-4 items-center justify-center">
             <ul className="flex gap-4 items-center justify-center">
               {menu.map((x) => (
@@ -24,7 +26,7 @@ export default function Layout() {
               ))}
             </ul>
             <button className="bg-slate-500 text-white  px-2 py-1 rounded">
-              <Link> + New Post</Link>
+              <Link to={"/create"}> + New Post</Link>
             </button>
           </div>
         </div>
