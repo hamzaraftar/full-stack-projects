@@ -7,7 +7,7 @@ export default function Blogcard({ blogData }) {
         <img src={blogData.image} alt="blog image" />
         <div className="p-5">
           <h2 className="mt-1 text-xl text-left">{blogData.title}</h2>
-          <p className="text-sm text-left opacity-70 mt-6">
+          <p className="text-sm text-left opacity-70 mt-4">
             {blogData.description}
           </p>
         </div>
