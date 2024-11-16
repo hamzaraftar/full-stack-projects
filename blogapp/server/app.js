@@ -1,11 +1,32 @@
 const express = require("express");
 const db = require("./database/connection");
+const multer = require("multer");
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "uploads/");
+  },
+  filename: function (req, file, cb) {
+    cb(null, `${Date.now()} ${file.originalname}`);
+  },
+});
+
+const upload = multer({ storage: storage });
+
 const app = express();
 const port = 3000;
 
 app.use(express.json());
 
-app.get("/", async (req, res) => {});
+// get all posts
+app.get("/blog", async (req, res) => {
+  try {
+    const data = await db.query("SELECT * FROM blogs");
+    res.json(data.rows);
+  } catch (error) {
+    console.error(error.message);
+  }
+});
+
 // create post
 app.post("/blog", async (req, res) => {
   try {
@@ -18,6 +39,13 @@ app.post("/blog", async (req, res) => {
   } catch (error) {
     console.error(error.message);
   }
+});
+
+// post files
+app.post("/blogimage", upload.single("file"), function (req, res, next) {
+  // req.file is the `avatar` file
+  // req.body will hold the text fields, if there were any
+  res.json(req.file);
 });
 
 app.listen(port, () => {
