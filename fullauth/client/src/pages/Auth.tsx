@@ -18,60 +18,68 @@ import {
 const Auth = () => {
     return (
         <div className="dark:text-white grid grid-cols-1 md:grid-cols-2 gap-5">
-            <div className=" flex flex-col items-center justify-center ">
+            <div className=" flex flex-col items-start justify-start md:pt-[50px]">
                 <img className="w-[100px]" src="https://cdn-icons-png.flaticon.com/512/17235/17235845.png" alt="chat image" />
                 <h1 className="text-3xl py-2 ">Chat App</h1>
                 <p className="text-extralight py-1 text-xl">Simple, Personal ,Real time chat app</p>
             </div>
             <div className="">
-                <Tabs defaultValue="account" className="w-[400px]">
+                <Tabs defaultValue="login" className="w-[400px]">
                     <TabsList className="grid w-full grid-cols-2">
-                        <TabsTrigger value="account">Account</TabsTrigger>
-                        <TabsTrigger value="password">Password</TabsTrigger>
+                        <TabsTrigger value="login">LogIn</TabsTrigger>
+                        <TabsTrigger value="signup">SignUp</TabsTrigger>
                     </TabsList>
-                    <TabsContent value="account">
+                    <TabsContent value="login">
                         <Card>
                             <CardHeader>
-                                <CardTitle>Account</CardTitle>
+                                <CardTitle>Login</CardTitle>
                                 <CardDescription>
-                                    Make changes to your account here. Click save when you're done.
+                                    Enter Email and Password to login
                                 </CardDescription>
                             </CardHeader>
                             <CardContent className="space-y-2">
                                 <div className="space-y-1">
-                                    <Label htmlFor="name">Name</Label>
-                                    <Input id="name" defaultValue="Pedro Duarte" />
+                                    <Label htmlFor="email">Email</Label>
+                                    <Input id="email" placeholder="abc@gmail.com" />
                                 </div>
                                 <div className="space-y-1">
-                                    <Label htmlFor="username">Username</Label>
-                                    <Input id="username" defaultValue="@peduarte" />
+                                    <Label htmlFor="password">Password</Label>
+                                    <Input id="password" placeholder="********" />
                                 </div>
                             </CardContent>
                             <CardFooter>
-                                <Button>Save changes</Button>
+                                <Button>Login</Button>
                             </CardFooter>
                         </Card>
                     </TabsContent>
-                    <TabsContent value="password">
+                    <TabsContent value="signup">
                         <Card>
                             <CardHeader>
-                                <CardTitle>Password</CardTitle>
+                                <CardTitle>SignUp</CardTitle>
                                 <CardDescription>
-                                    Change your password here. After saving, you'll be logged out.
+                                    Enter below fields to signup.
                                 </CardDescription>
                             </CardHeader>
                             <CardContent className="space-y-2">
                                 <div className="space-y-1">
-                                    <Label htmlFor="current">Current password</Label>
-                                    <Input id="current" type="password" />
+                                    <Label htmlFor="username">Username</Label>
+                                    <Input id="username" placeholder="Hamza Asghar" />
                                 </div>
                                 <div className="space-y-1">
-                                    <Label htmlFor="new">New password</Label>
-                                    <Input id="new" type="password" />
+                                    <Label htmlFor="email_">Email</Label>
+                                    <Input id="email_" placeholder="hamza@gmail.com" />
+                                </div>
+                                <div className="space-y-1">
+                                    <Label htmlFor="password">Password</Label>
+                                    <Input id="password" placeholder="********" />
+                                </div>
+                                <div className="space-y-1">
+                                    <Label htmlFor="confirm_password">Confirm Password</Label>
+                                    <Input id="confirm_password" placeholder="********" />
                                 </div>
                             </CardContent>
                             <CardFooter>
-                                <Button>Save password</Button>
+                                <Button>Signp</Button>
                             </CardFooter>
                         </Card>
                     </TabsContent>
