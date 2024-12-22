@@ -18,8 +18,8 @@ import {
 const Auth = () => {
     return (
         <div className="dark:text-white grid grid-cols-1 md:grid-cols-2 gap-5">
-            <div className=" flex flex-col items-start justify-start md:pt-[50px]">
-                <img className="w-[100px]" src="https://cdn-icons-png.flaticon.com/512/17235/17235845.png" alt="chat image" />
+            <div className=" flex flex-col items-start justify-center md:justify-start md:pt-[50px]">
+                <img className="w-[100px] animate-bounce" src="https://cdn-icons-png.flaticon.com/512/17235/17235845.png" alt="chat image" />
                 <h1 className="text-3xl py-2 ">Chat App</h1>
                 <p className="text-extralight py-1 text-xl">Simple, Personal ,Real time chat app</p>
             </div>
