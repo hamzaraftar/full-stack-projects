@@ -2,13 +2,14 @@ const express = require("express");
 const router = express.Router();
 const client = require("../db/conn");
 const jwtutil = require("../utils/jwt");
+const validate = require("../utils/tokenvalidete");
 
 router.get("/", (req, res) => {
   res.send("auth  home ");
 });
-router.post("/verify", async (req, res) => {
+router.post("/verify", validate, async (req, res) => {
   let verified = await jwtutil.verify(req.body.token);
-  res.json({ "data": verified });
+  res.json({ data: verified });
 });
 
 router.post("/login", async (req, res) => {
@@ -20,7 +21,7 @@ router.post("/login", async (req, res) => {
     if (result.rows.length > 0) {
       delete result.rows[0].user_password;
       let authToken = await jwtutil.create(result.rows[0]);
-      res.json({ "token": authToken });
+      res.json({ token: authToken });
     } else {
       res.status(401).json({ error: "password or email is incorrect" });
     }
