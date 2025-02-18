@@ -6,7 +6,7 @@ from .serializers import TodoSerializer
 
 @api_view(['GET'])
 def get_todos(request):
-    tods = Todo.objects.all()
+    tods = Todo.objects.all()[::-1]
     serializer = TodoSerializer(tods, many=True)
     return Response(serializer.data)
 
@@ -18,7 +18,24 @@ def get__Todo_by_id(request,pk):
 
 @api_view(['POST'])
 def create_todo(request):
-    serializer = TodoSerializer(data=request.data)
+    data = request.data
+    todo = Todo.objects.create(
+        todo_name = data['todo_name'],
+    )
+    serializer = TodoSerializer(todo, many=False)
+    return Response(serializer.data)
+
+@api_view(['PUT'])
+def update_todo(request,pk):
+    todo = Todo.objects.get(id=pk)
+    serializer = TodoSerializer(todo, data=request.data, partial=True)
     if serializer.is_valid():
         serializer.save()
-    return Response(serializer.data)
+        return Response(serializer.data)
+    return Response(serializer.errors)
+
+@api_view(['DELETE'])
+def delete_todo(request,pk):
+    todo = Todo.objects.get(id=pk)
+    todo.delete()
+    return Response('Todo was deleted')
