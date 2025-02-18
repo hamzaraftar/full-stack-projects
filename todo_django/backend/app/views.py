@@ -27,15 +27,22 @@ def create_todo(request):
 
 @api_view(['PUT'])
 def update_todo(request,pk):
-    todo = Todo.objects.get(id=pk)
+    try:
+        todo = Todo.objects.get(id=pk)
+    except Todo.DoesNotExist:
+        return Response('Todo does not exist')
+    
     serializer = TodoSerializer(todo, data=request.data, partial=True)
     if serializer.is_valid():
         serializer.save()
-        return Response(serializer.data)
+        return Response('Todo was updated')
     return Response(serializer.errors)
 
 @api_view(['DELETE'])
 def delete_todo(request,pk):
-    todo = Todo.objects.get(id=pk)
-    todo.delete()
-    return Response('Todo was deleted')
+    try:
+        todo = Todo.objects.get(id=pk)
+        todo.delete()
+        return Response('Todo was deleted')
+    except Todo.DoesNotExist:
+        return Response('Todo does not exist')    
