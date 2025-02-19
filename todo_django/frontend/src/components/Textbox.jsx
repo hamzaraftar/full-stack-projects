@@ -9,17 +9,18 @@ export default function Textbox() {
   useEffect(() => {
     async function getTods() {
       const data = await axios.get("http://127.0.0.1:8000/api/todos/");
+
       setTods(data.data);
     }
     getTods();
-  }, [value]);
+  }, [value,handleDelete]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     const data = axios({
       method: "post",
-      url: "http://127.0.0.1:8000//api/create/",
+      url: "http://127.0.0.1:8000/api/create/",
       data: {
         todo_name: value,
       },
@@ -27,6 +28,12 @@ export default function Textbox() {
 
     setValue("");
   };
+
+  async function handleDelete(id) {
+    console.log(id);
+    const data = await axios.delete(`http://127.0.0.1:8000/api/delete/${id}/`);
+    console.log(data.data);
+  }
 
   return (
     <div>
@@ -45,7 +52,11 @@ export default function Textbox() {
       </form>
       <span className="mt-6">
         {todo.map((item, index) => (
-          <h3 className="text-2xl mt-4" key={item.id || index}>
+          <h3
+            className="text-2xl mt-4 active:bg-red-500  cursor-pointer"
+            onClick={() => handleDelete(item.id)}
+            key={item.id || index}
+          >
             {item.todo_name}
           </h3>
         ))}
