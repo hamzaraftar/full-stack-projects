@@ -1,15 +1,17 @@
-import './App.css'
-import { Button, HStack } from "@chakra-ui/react"
-function App() {
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Login from "./routes/Login";
+import "./App.css";
 
+function App() {
   return (
     <>
-       <HStack>
-      <Button>Click me</Button>
-      <Button>Click me</Button>
-    </HStack>
+      <BrowserRouter>
+        <Routes>
+          <Route path="login" element={<Login />} />
+        </Routes>
+      </BrowserRouter>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
