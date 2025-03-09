@@ -55,6 +55,21 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
 ]
 
+
+CORS_ALLOW_CREDENTIALS = True  # Allow cookies/auth tokens
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",  # Your frontend URL
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:5173",
+]
+
+CORS_ALLOW_HEADERS = [
+    "content-type",
+    "authorization",
+    "x-requested-with",
+]
 REST_FRAMEWORK = {    
     'DEFAULT_AUTHENTICATION_CLASSES': (
         
