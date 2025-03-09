@@ -17,7 +17,7 @@ export default function Login() {
           password: password,
         },
         {
-          withCredentials: true, 
+          withCredentials: true,
         }
       );
 
@@ -29,20 +29,22 @@ export default function Login() {
 
   return (
     <>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="login-form">
         <input
+        className="fields"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           type="text"
           placeholder="Username"
         />
         <input
+        className="fields"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           type="password"
           placeholder="Password"
         />
-        <input type="submit" value={"Login"} />
+        <input type="submit" value={"Login"}  className="btn"/>
       </form>
     </>
   );
