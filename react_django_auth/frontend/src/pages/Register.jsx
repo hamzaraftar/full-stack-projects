@@ -36,8 +36,8 @@ export default function Register() {
 
   return (
     <div>
-      {error && <p style={{color:"red"}}>{error}</p>}
-      {successMessage && <p>{successMessage}</p>}
+      {error && <p style={{ color: "red" }}>{error}</p>}
+      {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
       <form>
         <label htmlFor="username">username:</label>
         <input
