@@ -4,5 +4,7 @@ from django.conf.urls.static import static
 from app import views
 
 urlpatterns = [
-    path('/' , views.home)
+    path('blog/' ,views.BlogApi.as_view()),
+    path('blog/<int:id>/' , views.BlogApi.as_view()),
+    
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
