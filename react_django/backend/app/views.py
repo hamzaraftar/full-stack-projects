@@ -17,3 +17,17 @@ class NoteListCreate(generics.ListAPIView):
     def get_queryset(self):
         user = self.reuqest.user
         return Note.objects.filter(auther=user)
+    
+    def perform_create(self,serializer):
+        if serializer.is_valid():
+            serializer.save(auther=self.request.user)
+        else:
+            print(serializer.error)   
+
+class NoteDelete(generics.DestroyAPIView):   
+    serializer_class = NoteSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.reuqest.user
+        return Note.objects.filter(auther=user)
