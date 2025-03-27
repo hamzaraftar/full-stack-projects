@@ -5,7 +5,7 @@ const api = axios.create({
     baseURL:'http://localhost:8000/'
 })
 
-api.interceptors.request.user( 
+api.interceptors.request.use( 
     (config)=>{
         const token = localStorage.getItem(ACCESS_TOKEN)
         if (token) {
