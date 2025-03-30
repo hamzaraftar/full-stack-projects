@@ -16,9 +16,8 @@ export default function Home() {
         >
           Register
         </Link>
-        to continue Login or Register to continue
+        to continue
       </h2>
-      <button>Hover Me</button>
     </div>
   );
 }
