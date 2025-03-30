@@ -3,6 +3,8 @@ import api from "../api";
 import { useNavigate } from "react-router-dom";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constant";
 import LoadingIndicator from "./LoadingIndicator";
+import { Link } from "react-router-dom";
+
 
 export default function Form({ route, method }) {
   const [data, setData] = useState({ username: "", password: "" });
@@ -62,9 +64,18 @@ export default function Form({ route, method }) {
             <LoadingIndicator />
           </div>
         )}
-        {loading && <LoadingIndicator />}
+        
+        <span className="text-gray-600">
+        {method === "login" ? "Don't have an account?" : "Already have an account?"}{" "}
+        <Link
+          to={method === "login" ? "/register" : "/login"}
+          className="text-blue-500 font-medium hover:underline"
+        >
+          {method === "login" ? "Register" : "Login"}
+        </Link>
+      </span>
         <button
-          className="w-full bg-blue-500 text-white font-medium py-2 rounded-lg hover:bg-blue-600 transition duration-200"
+          className="w-full mt-2 bg-blue-500 text-white font-medium py-2 rounded-lg hover:bg-blue-600 transition duration-200"
           type="submit"
         >
           {name}
