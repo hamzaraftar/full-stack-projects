@@ -18,7 +18,7 @@ export default function TodoHeader() {
     })
   return (
     <div className="flex justify-between items-center px-4 py-2 bg-gray-200 shadow-md">
-      <span>{username}</span>
+      <span className="text-xl font-bold uppercase text-blue-700">{username}</span>
       <span>
         <Link
           className="bg-blue-500 inline-block text-white px-3.5 py-1.5 rounded-lg transition duration-300 transform hover:scale-105 hover:bg-blue-700"
