@@ -5,10 +5,10 @@ export default function TodoInput() {
     title: "",
     content: "",
   });
-  console.log(data);
+//   console.log(data);
 
   return (
-    <div >
+    <div className="mt-7" >
       <form className="flex flex-col items-center space-y-4 ">
         <input
           type="text"

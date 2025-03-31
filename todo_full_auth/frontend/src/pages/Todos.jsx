@@ -1,8 +1,10 @@
+import TodoHeader from "../components/TodoHeader";
 import TodoInput from "../components/TodoInput";
 
 export default function Todos() {
   return (
-    <div className="flex flex-col items-center justify-center  mt-7 ">
+    <div >
+      <TodoHeader />
       <TodoInput />
     </div>
   );
