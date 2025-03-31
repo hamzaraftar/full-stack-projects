@@ -1,7 +1,9 @@
-import React from 'react'
+import TodoInput from "../components/TodoInput";
 
 export default function Todos() {
   return (
-    <div>Todos</div>
-  )
+    <div className="flex flex-col items-center justify-center  mt-7 ">
+      <TodoInput />
+    </div>
+  );
 }

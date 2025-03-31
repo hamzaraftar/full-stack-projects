@@ -5,7 +5,6 @@ import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constant";
 import LoadingIndicator from "./LoadingIndicator";
 import { Link } from "react-router-dom";
 
-
 export default function Form({ route, method }) {
   const [data, setData] = useState({ username: "", password: "" });
   const [loading, setLoading] = useState(false);
@@ -13,25 +12,29 @@ export default function Form({ route, method }) {
 
   const name = method === "login" ? "Login" : "Register";
 
-  async function handleSubmit(e) {
+  const handleSubmit = async (e) => {
     setLoading(true);
     e.preventDefault();
+
     try {
       const res = await api.post(route, data);
-      if (res.status === 200) {
+      if (method === "login") {
         localStorage.setItem(ACCESS_TOKEN, res.data.access);
         localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
         navigate("/todos");
       } else {
-        alert("Invalid credentials");
+        navigate("/login");
       }
     } catch (error) {
-      console.error(error);
-      alert(error);
+      console.error(
+        "Error:",
+        error.response ? error.response.data : error.message
+      );
+      alert(error.response?.data?.detail || "Something went wrong!");
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -64,16 +67,18 @@ export default function Form({ route, method }) {
             <LoadingIndicator />
           </div>
         )}
-        
+
         <span className="text-gray-600">
-        {method === "login" ? "Don't have an account?" : "Already have an account?"}{" "}
-        <Link
-          to={method === "login" ? "/register" : "/login"}
-          className="text-blue-500 font-medium hover:underline"
-        >
-          {method === "login" ? "Register" : "Login"}
-        </Link>
-      </span>
+          {method === "login"
+            ? "Don't have an account?"
+            : "Already have an account?"}{" "}
+          <Link
+            to={method === "login" ? "/register" : "/login"}
+            className="text-blue-500 font-medium hover:underline"
+          >
+            {method === "login" ? "Register" : "Login"}
+          </Link>
+        </span>
         <button
           className="w-full mt-2 bg-blue-500 text-white font-medium py-2 rounded-lg hover:bg-blue-600 transition duration-200"
           type="submit"
