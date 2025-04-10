@@ -15,7 +15,9 @@ urlpatterns = [
     path('user-info/', views.user_info, name='user_info'),
 
     # Note
-    path('note/',views.todo_list_view , name='for creation and get all Note'),
+    path('note/',views.note_list_view , name='for creation and get all Note'),
+    path('note/<int:pk>/', views.note_detail_view, name='note-detail'),
+
     # Tokens
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),    

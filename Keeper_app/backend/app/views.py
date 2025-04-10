@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny,IsAuthenticated
 from rest_framework import status
 from .serializers import UserSerializer ,NoteSerializer
-from .models import User
+from django.shortcuts import get_object_or_404
 from .models import Note
 
 @api_view(['POST'])
@@ -28,10 +28,10 @@ def user_info(request):
 #  for creatio and get Notes 
 @api_view(['GET', 'POST'])
 @permission_classes([IsAuthenticated])
-def todo_list_view(request):
+def note_list_view(request):
     if request.method == 'GET':
-        todos = Note.objects.filter(author=request.user)
-        serializer = NoteSerializer(todos, many=True)
+        notes = Note.objects.filter(author=request.user)
+        serializer = NoteSerializer(notes, many=True)
         return Response(serializer.data)
 
     elif request.method == 'POST':
@@ -42,3 +42,25 @@ def todo_list_view(request):
         else:
             print(serializer.errors)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+
+@api_view(['GET', 'PUT', 'PATCH', 'DELETE'])
+@permission_classes([IsAuthenticated])
+def note_detail_view(request, pk):
+    # Only allow access to the user's own note
+    note = get_object_or_404(Note, pk=pk, author=request.user)
+
+    if request.method == 'GET':
+        serializer = NoteSerializer(note)
+        return Response(serializer.data)
+
+    elif request.method in ['PUT', 'PATCH']:
+        serializer = NoteSerializer(note, data=request.data, partial=(request.method == 'PATCH'))
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'DELETE':
+        note.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
