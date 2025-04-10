@@ -14,8 +14,8 @@ urlpatterns = [
     path('create-user/', views.create_user, name='create_user'),
     path('user-info/', views.user_info, name='user_info'),
 
-
-
+    # Note
+    path('note/',views.todo_list_view , name='for creation and get all Note'),
 
     # Tokens
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),

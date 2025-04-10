@@ -12,7 +12,7 @@ class UserSerializer(serializers.ModelSerializer):
             user = User.objects.create_user(**validated_data)
             return user
         
-class  TodoSerializer(serializers.ModelSerializer):
+class  NoteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Note
         fields = ["id", "title", "content"]
