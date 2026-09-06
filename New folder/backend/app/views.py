@@ -1,41 +1,79 @@
 from .models import Note
 from django.contrib.auth.models import User
 from .serializers import NoteSerializer, UserSerializer
-from rest_framework import generics
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny,IsAuthenticated
+from rest_framework.views import APIView
+from rest_framework.response import Response
 
-# Users registration view
-class CreateUserView(generics.CreateAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-    permission_classes = [AllowAny] 
+class CreateUserView(APIView):
+    def get_permissions(self):
+        if self.request.method == 'POST':
+            return [AllowAny()]
+        return [IsAuthenticated()]
 
-# Current login user information view
-class UserInfoView(generics.RetrieveAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
+    def post(self, request):
+        serializer = UserSerializer(data=request.data)
+        if serializer.is_valid():
+            user = serializer.save()
+            return Response({"message": "User created successfully."}, status=201)
+        return Response(serializer.errors, status=400)
 
-    def get_object(self):
-        return self.request.user
+    def get(self, request):
+        serializer = UserSerializer(request.user)
+        return Response(serializer.data)
 
-# Note creation view
-class NoteCreateView(generics.CreateAPIView):
-    queryset = Note.objects.all()
-    serializer_class = NoteSerializer
+class NoteListView(APIView):
+    permission_classes = [IsAuthenticated]
 
-    def perform_create(self, serializer):
-        serializer.save(author=self.request.user)
+    def get(self, request, pk=None):
+        if pk is not None:
+            try:
+                note = Note.objects.get(pk=pk, author=request.user)
+                serializer = NoteSerializer(note)
+                return Response(serializer.data)
+            except Note.DoesNotExist:
+                return Response({"error": "Note not found."}, status=404)
 
-# Note list view for the current user
-class NoteListView(generics.ListAPIView):
-    serializer_class = NoteSerializer
+        notes = Note.objects.all(author=request.user)
+        serializer = NoteSerializer(notes, many=True)
+        return Response(serializer.data)
 
-    def get_queryset(self):
-        return Note.objects.filter(author=self.request.user)
+    def post(self, request):
+        serializer = NoteSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(author=request.user)
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)
 
-class NoteDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Note.objects.all()
-    serializer_class = NoteSerializer
+    def put(self, request, pk):
+        try:
+            note = Note.objects.get(pk=pk, author=request.user)
+        except Note.DoesNotExist:
+            return Response({"error": "Note not found."}, status=404)
 
-    def get_queryset(self):
-        return Note.objects.filter(author=self.request.user)
+        serializer = NoteSerializer(note, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=400)
+
+    def patch(self, request, pk):
+        try:
+            note = Note.objects.get(pk=pk, author=request.user)
+        except Note.DoesNotExist:
+            return Response({"error": "Note not found."}, status=404)
+
+        serializer = NoteSerializer(note, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=400)
+
+    def delete(self, request, pk):
+        try:
+            note = Note.objects.get(pk=pk, author=request.user)
+        except Note.DoesNotExist:
+            return Response({"error": "Note not found."}, status=404)
+
+        note.delete()
+        return Response({"message": "Note deleted successfully."}, status=200)
