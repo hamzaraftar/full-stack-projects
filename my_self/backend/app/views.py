@@ -20,7 +20,12 @@ class NotesView(APIView):
         return Response(serializer.data)
 
     def post(self,request):
-        pass
+        serializer = NoteSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data , status=201)
+        return Response(serializer.errors , status=400)    
+
 
     def put (self,request,pk):
         pass
