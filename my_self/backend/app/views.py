@@ -6,7 +6,6 @@ from rest_framework.response import Response
 class NotesView(APIView):
 
     def get(self , request,pk=None):
-        print(request)
         if pk is not None:
             try:
                 note = Note.objects.get(pk=pk)
@@ -27,13 +26,42 @@ class NotesView(APIView):
         return Response(serializer.errors , status=400)    
 
 
-    def put (self,request,pk):
-        pass
+    def put (self,request,pk=None):
+        if pk is None:
+            return Response({"error":"Id in not provided"} , status=400)
+
+        try:
+            note = Note.objects.get(pk=pk)
+        except Note.DoesNotExist:
+            return Response({"error":"Not Found"} ,status=404)
+
+        serializer = NoteSerializer(note ,data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors)
 
 
-    def patch(self,request,pk):        
-        pass
+    def patch(self,request,pk=None):        
+        if pk is None:
+            return Response({"error":"Id in not provided"} , status=400)
 
+        try:
+            note = Note.objects.get(pk=pk)
+        except Note.DoesNotExist:
+            return Response({"error":"Not Found"}, status=404)
+        
+        serializer = NoteSerializer(note, data=request.data , partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors)    
 
     def delete(self,request,pk):
-        pass        
+        try:
+            note = Note.objects.get(pk=pk)
+        except Note.DoesNotExist:
+            return Response({"error":"Note Found"} ,status=404)
+
+        note.delete()             
+        return Response({"message":"Note delete successfully "} , status=200)
