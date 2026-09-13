@@ -1,122 +1,71 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import { useState, useEffect } from "react";
+import "./App.css";
+import axios from "axios";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [note, setNote] = useState([]);
+
+  useEffect(() => {
+    const fetchNote = async () => {
+      try {
+        const response = await axios.get("http://127.0.0.1:8000/api/notes/");
+        if (response.status !== 200) {
+          throw new Error("Failed to fetch note");
+        }
+
+        setNote(response.data);
+      } catch (error) {
+        console.error("Error fetching note:", error);
+      }
+    };
+
+    fetchNote();
+  }, []);
+
+  console.log(note);
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <div className="min-h-screen bg-gray-100 p-6">
+      <h1 className="text-4xl text-blue-500 text-center font-bold">Note <span className=" text-blue-600 border-b-4 border-blue-600">App</span></h1>
 
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
+      <div className="max-w-2xl mx-auto mt-7">
+        <div className="flex flex-col gap-2 mb-4">
+          <input
+            type="text"
+            placeholder="Title"
+            className="border border-blue-700 rounded-md p-2 mb-2 outline-none font-semibold"
+          ></input>
+          <input
+            type="text"
+            placeholder="Content"
+            className="border border-blue-700 rounded-md p-2 mb-2  outline-none font-semibold"
+          ></input>
+          <button className="bg-blue-600 cursor-pointer text-white px-4 py-2 rounded hover:bg-blue-500">
+            Add Note
+          </button>
         </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+        {note.map((item) => (
+          <div key={item.id} className="p-4 mb-4 bg-white rounded-lg shadow-md">
+            <h2 className="text-blue-600 text-2xl font-semibold">
+              {item.title}
+            </h2>
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+            <p className="text-gray-700 text-lg mt-2">{item.content}</p>
+
+            <div className="flex gap-2  justify-end">
+              <button className="bg-blue-600 cursor-pointer text-white px-4 py-2 rounded hover:bg-blue-500">
+                Edit
+              </button>
+
+              <button className="bg-red-600 cursor-pointer text-white px-4 py-2 rounded hover:bg-red-500">
+                Delete
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 }
 
-export default App
+export default App;
