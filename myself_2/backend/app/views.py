@@ -15,10 +15,13 @@ class TotoAPIView(APIView):
         serializer = TodoSerializer(todo, many=True)
         return Response(serializer.data)
 
-
-    def post(self,request,pk):
-        pass
-
+    def post(self,request):
+        serializer = TodoSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response (serializer.data,status=201)
+        return Response(serializer.errors ,status=400)
+    
     def put(self,request,pk):
         pass
 
