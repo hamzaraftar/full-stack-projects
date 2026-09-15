@@ -23,10 +23,34 @@ class TotoAPIView(APIView):
         return Response(serializer.errors ,status=400)
     
     def put(self,request,pk):
-        pass
+        try:
+            todo = Todo.objects.get(pk=pk)
+        except Todo.DoesNotExist:
+            return Response({"error":"not found"},status=404)
+
+        serializer = TodoSerializer(todo,data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors)
 
     def patch(self,request,pk):
-        pass
+        try:
+            todo = Todo.objects.get(pk=pk)
+        except Todo.DoesNotExist:
+            return Response({"error":"not found"},status=404)
+
+        serializer = TodoSerializer(todo , data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors)    
 
     def delete(self,request,pk):
-        pass
+        try:
+            todo = Todo.objects.get(pk=pk)
+        except Todo.DoesNotExist:
+            return Response({"error":"not found"},status=404)
+
+        todo.delete()
+        return Response({"message":"Todo Delete successfully "})    
