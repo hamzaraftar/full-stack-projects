@@ -3,6 +3,23 @@ from .serializers import TodoSerializer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+
+# class UserInfo(APIView):
+#     def get_permissions(self):
+#         if self.request.method == 'POST':
+#             return [AllowAny()]
+#         return [IsAuthenticated()]    
+
+#     def get(self,request):
+#         serializer = UserSerializer(request.user)
+
+#     def post(self,request):
+#         pass
+
+    
+
+
+
 class TotoAPIView(APIView):
     def get(self,request,pk=None):
         if pk is not None:
